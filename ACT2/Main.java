@@ -5,8 +5,8 @@ public class Main
     public static void main(String[] args) 
     {
         Scanner scan = new Scanner (System.in);
-        int size = 3, userOption, index;
-
+        int size, userOption = 0, index;
+        boolean isValid = true;
         System.out.println("============MENU============");
         System.out.print("\nCreate array size: ");
         size = scan.nextInt();
@@ -15,29 +15,46 @@ public class Main
         
         do
         {
-            System.out.println("\n============================");
-            System.out.println("\n1) Add Element");
-            System.out.println("2) View Elements");
-            System.out.println("3) Remove Element");
-            System.out.println("4) Search Element");
-            System.out.println("5) Sort");
-            System.out.println("6) Edit");
-            System.out.println("7) Exit");
-            System.out.print("Select an option: ");
-            userOption = scan.nextInt();
+            try
+            {
+                System.out.println("\n============================");
+                System.out.println("\n1) Add Element");
+                System.out.println("2) View Elements");
+                System.out.println("3) Remove Element");
+                System.out.println("4) Search Element");
+                System.out.println("5) Sort");
+                System.out.println("6) Edit");
+                System.out.println("7) Exit");
+                System.out.print("Select an option: ");
+                userOption = scan.nextInt();
+            }
+            catch (Exception e){
+                System.out.println("\nInvalid input. Please enter a number");
+                scan.next();
+                continue;
+            }
 
             switch(userOption)
             {
                 case 1:                  
                     
-                    int num;
+                    int num = 1;
                     do
                     {
-                        System.out.println("\n============================");
-                        System.out.print("\nEnter value (Press 0 to stop): ");
-                        num = scan.nextInt();
-                        if (num != 0)
+                        try
+                        {
+                            System.out.println("\n============================");
+                            System.out.print("\nEnter value (Press 0 to stop): ");
+                            num = scan.nextInt();
+                            if (num != 0)
                             arr.add(num);
+                        }
+                        catch (Exception e)
+                        {
+                            System.out.println("\nInvalid input. Please enter a number");
+                            scan.next();
+                            continue;
+                        }
 
                     }while(num != 0);
                     break;
@@ -46,69 +63,144 @@ public class Main
                     arr.viewElements();
                     break;
 
-                case 3: 
-                    arr.viewElements();
-                    System.out.println("\n============================");
-                    System.out.print("\nEnter the index: ");
-                    index = scan.nextInt();
-
-                    while(index > arr.size)
+                case 3:
+                    isValid = true;
+                    while (isValid)
                     {
-                        System.out.println("\n============================");
-                        System.out.println("\nPlease enter a valid index");
-                        arr.viewElements();
-                        System.out.print("\nEnter the index: ");
-                        index = scan.nextInt();
-                    }
+                        try
+                        {
+                            System.out.println("\n============================");
+                            arr.viewElements();                
+                            if (arr.isEmpty())
+                                break;
+                            System.out.print("\nEnter the index: ");
+                            index = scan.nextInt();
+                            arr.remove(index);
+                            isValid = false;
+                        }
+                        catch(InputMismatchException e)//if the user enters a letter
+                        {
+                            System.out.println("\nPlease enter a number only.");
+                            scan.next();
+                        }
 
-                    arr.remove(index);
-                    arr.viewElements();
+                        catch(Exception e)
+                        {
+                            System.out.println("\nPlease enter the correct index.");
+                        }
+                    }
                     break;      
                 
                 case 4:
-                    System.out.println("\n============================");
-                    System.out.print("\nEnter the value: ");
-                    int value = scan.nextInt();
-                    arr.viewElements();
-                    arr.search(value);
+                    isValid = true;
+                    while (isValid)
+                    {
+                        try
+                        {
+                            System.out.println("\n============================");
+                            System.out.print("\nEnter the value: ");
+                            int value = scan.nextInt(); 
+                            arr.search(value);
+                            isValid = false;
+                        }
+                        catch(InputMismatchException e)//if the user enters a letter
+                        {
+                            System.out.println("\nPlease enter a number only.");
+                            scan.next();
+                        }
+
+                        catch(Exception e)//if the user inputs the wrong index
+                        {
+                            System.out.println("\nPlease enter a valid number");                       
+                        }
+
+                        
+                    }
                     break;
                 
                 case 5:
-                    System.out.println("\n============================");
-                    System.out.println("\n   1) Ascending \n   2) Descending");
-                    System.out.print("   Select an option: ");
-                    int userOption1 = scan.nextInt();
-
-                    System.out.println("\nBefore Sorting: ");
-                    arr.viewElements();
-                    
-                    if (userOption1 == 1 && !arr.isEmpty())
-                    {                        
-                        arr.sortAscending();
-                        System.out.println("\n============================");
-                        System.out.println("\nAfter Sorting: ");
-                        arr.viewElements();
-                    }
-                                        
-                    else if (userOption1 == 2 && !arr.isEmpty())
+                    isValid = true;
+                    do
                     {
-                        arr.sortDescending();
-                        System.out.println("\n============================");
-                        System.out.println("\nAfter Sorting: ");
-                        arr.viewElements();
-                    }                                         
+                        try
+                        {
+                            System.out.println("\n============================");
+                            System.out.println("\n   1) Ascending \n   2) Descending");
+                            System.out.print("   Select an option: ");
+                            int userOption1 = scan.nextInt();
+
+                            
+                            
+                            if (userOption1 == 1 && !arr.isEmpty())
+                            {     
+                                System.out.println("\nBefore Sorting: ");
+                                arr.viewElements();                   
+                                arr.sortAscending();
+                                System.out.println("\n============================");
+                                System.out.println("\nAfter Sorting: ");
+                                arr.viewElements();
+                            }
+                                                
+                            else if (userOption1 == 2 && !arr.isEmpty())
+                            {
+                                System.out.println("\nBefore Sorting: ");
+                                arr.viewElements();
+                                arr.sortDescending();
+                                System.out.println("\n============================");
+                                System.out.println("\nAfter Sorting: ");
+                                arr.viewElements();
+                            }
+
+                            else
+                                {
+                                    System.out.println("\n============================");
+                                    System.out.println("\nPlease enter (1-2)");                               
+                                    continue;
+                                }
+                            isValid = false;   
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("\n============================");
+                            System.out.println("\nPlease enter a valid number");
+                            scan.next();   
+                        }            
+                    }while(isValid);         
                     break;
 
                 case 6:
-                    arr.viewElements();
-                    if (!arr.isEmpty())
+                    isValid = true;
+                    do
                     {
-                        System.out.print("\nEnter the index: ");
-                        index = scan.nextInt();
-                        arr.editElement(index);
-                        arr.viewElements();
-                        
-                    }               
+                        try
+                        {
+                            System.out.println("\n============================");
+                            arr.viewElements();
+                            if (!arr.isEmpty())
+                            {
+                                
+                                System.out.print("\nEnter the index: ");
+                                index = scan.nextInt();
+                                arr.editElement(index);
+                                arr.viewElements();
+                                
+                            }               
+                            isValid = false;
+                        }
+                        catch(InputMismatchException e)
+                        {
+                            System.out.println("\n============================");
+                            System.out.println("\nPlease enter a number only.");
+                            
+                            scan.next();
+                        }
+
+                        catch(Exception e)
+                        {
+                            System.out.println("\n============================");
+                            System.out.println("\nPlease enter the correct index.");
+                        }
+                    }while(isValid);
                     break;
 
                 case 7:

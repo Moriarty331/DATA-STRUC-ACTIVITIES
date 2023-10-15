@@ -64,27 +64,31 @@ public class MyArray
             System.out.println("The array is empty.");
             return;
         }
+        
         arr[_index] = 0;
         count--;
+
+        viewElements();
     }
 
     public void search(int value)
     {
         if (isEmpty())
         {
-            System.out.println("The array is empty.");
+            System.out.println("\nThe array is empty.");
             return;
         }
 
-        int temp = 0;
+        viewElements();
+        boolean element = false;
 
         for (int i = 0; i < arr.length; ++i)
         {
             if (arr[i] == value)
-                temp++;
+                element = true;
         }
 
-        if (temp == 0)
+        if (element == false)
         {
             System.out.printf("\nThe number %d is not in the array.\n", value);
             return;
